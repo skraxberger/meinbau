@@ -1,0 +1,34 @@
+div(ng-controller="PublicProfileController as profileCtrl")
+    .row
+        .profile-cover-container
+            .profile-cover-wrapper
+                img.image-dragged(ng-src="{{profileInfo.coverImage}}", ng-style="{'top': + profileInfo.coverImagePosition}")
+            .profile-image-container
+                img.img-responsive.img-thumbnail(ng-src="{{profileInfo.profileImage}}")
+            .profile-headline.clearfix
+                .headline-space
+                .headline
+                    a.headline-tag Timeline
+                    span.headline-tag |
+                    a.headline-tag About
+    .row(ng-controller="PublicMessageController as msgCtrl")
+        .col-xs-6.col-sm-2
+        .col-xs-6.col-sm-7
+            .card.special(ng-repeat="message in messages")
+                .card-heading.image
+                    img(ng-src="img/profile-32.png", alt="")
+                    .card-heading-header
+                        h3
+                        a(ui-sref="getProfileOfUser(message.user)") {{message.displayName}}
+                        span.space
+                        | {{message.date | date:"dd.MM.yyyy hh:mm"}}
+                .card-body
+                    | {{message.text}}
+                .card-actions
+                    a(href="", ng-click="like(message)") Super Geil
+                        span.pad-xs
+                            span ·
+                        a(href="", ng-click="share(message)")  Teilen
+                .card-comments(ng-show="message.comments.length")
+        .col-xs-6.col-sm-2
+

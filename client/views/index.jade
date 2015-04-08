@@ -1,0 +1,28 @@
+doctype html
+html
+    head
+        meta(charset='utf8')
+        base(href='/')
+        title MeinBau
+        link(rel="shortcut icon" href="img/icon.ico")
+        link(href="components/bootstrap/dist/css/bootstrap.css", rel="stylesheet")
+        link(href="components/font-awesome/css/font-awesome.min.css", rel="stylesheet")
+        link(href='css/animate.css', rel='stylesheet')
+        link(href='css/style.css', rel='stylesheet')
+        link(href='css/default.css', rel='stylesheet')
+
+    body(id="page-top" data-spy="scroll" data-target=".navbar-custom")
+        if (!user)
+            include includes/logged_out
+        else
+            include includes/navbar_logged_in
+            include includes/logged_in
+
+        script(src='components/jquery/dist/jquery.min.js')
+        script(src='components/bootstrap/dist/js/bootstrap.min.js')
+        // Core JavaScript Files
+        script(src='js/design/jquery.easing.min.js')
+        script(src='js/design/jquery.scrollTo.js')
+        script(src='js/design/wow.min.js')
+        // Custom Theme JavaScript
+        script(src='js/design/custom.js')

@@ -1,0 +1,58 @@
+div(ng-controller="ProfileController as profileCtrl")
+    .row
+        .profile-cover-container(ng-mouseenter="coverChangeVisible = true", ng-mouseleave="coverChangeVisible = false", ng-init="coverChangeVisible = false")
+            .profile-cover-resize-wrapper(ng-show="repositionCover")
+                img(drag-image ng-src="{{profileInfo.coverImage}}")
+            .profile-cover-wrapper(ng-hide="repositionCover")
+                img.image-dragged(ng-src="{{profileInfo.coverImage}}", ng-style="{'top': + profileInfo.coverImagePosition}")
+            .profile-image-container(ng-mouseenter="profileChangeVisible = true", ng-mouseleave="profileChangeVisible = false", ng-init="profileChangeVisible = false")
+                img.img-responsive.img-thumbnail(ng-src="{{profileInfo.profileImage}}")
+                .btn.btn-xs.btn-primary.profile-image-change(ng-file-select, ng-model="profileFiles", ng-show="profileChangeVisible")
+                    img.dropdown-toggle(dropdown-toggle, src="img/camera-32.png")
+            .btn.btn-xs.btn-primary.pull-right.profile-cover-change.dropdown(dropdown ng-show="coverChangeVisible")
+                img.dropdown-toggle(dropdown-toggle, src="img/camera-32.png")
+                ul.dropdown-menu(role="menu")
+                    li
+                        a(ng-file-select href="", ng-model="coverFiles") Ändern
+                    li
+                        a(href="", ng-click="repositionCover=true") Anpassen
+            .profile-headline.clearfix
+                .headline-space
+                .headline(ng-hide="repositionCover")
+                    a.headline-tag Timeline
+                    span.headline-tag |
+                    a.headline-tag About
+                .headline(ng-show="repositionCover")
+                    .btn.btn-xs.btn-primary.pull-right.headline-tag(ng-click="repositionCover=false") Abbrechen
+                    .btn.btn-xs.btn-primary.pull-right.headline-tag(ng-click="saveCoverImagePosition()") Speichern
+    .row(ng-controller="PrivateMessageController as msgCtrl")
+        .col-xs-6.col-sm-2
+        .col-xs-6.col-sm-7
+            .card.special(ng-repeat="message in messages")
+                .clearfix
+                    .pull-right.dropdown(dropdown)
+                        i.fa.fa-angle-down.caret-right.dropdown-toggle(dropdown-toggle)
+                        ul.dropdown-menu(role="menu")
+                            li(ng-repeat="item in getDropDownMenu(message)")
+                                a(href="", ng-click="optionMenuClick(item.id,message, $index)") {{item.name}}
+                .card-heading.image
+                    img(ng-src="img/profile-32.png", alt="")
+                    .card-heading-header
+                        h3
+                        a(ng-click="getProfileOfUser(message.user)") {{message.displayName}}
+                        span.space
+                        | {{message.date | date:"dd.MM.yyyy hh:mm"}}
+                .card-body
+                    div(ng-hide="message.editEnabled")
+                        {{message.text}}
+                    div(ng-show="message.editEnabled")
+                        textarea.form-control.simplebox(ng-model="message.text", style="background-color: #E5E5E5;")
+                        .clearfix
+                        button.btn.btn-primary.pull-right(type="submit", ng-click="updateMessage(message)") Teilen
+                .card-actions
+                    a(href="", ng-click="like(message)") Super Geil
+                        span.pad-xs
+                            span ·
+                        a(href="", ng-click="share(message)")  Teilen
+                .card-comments(ng-show="message.comments.length")
+        .col-xs-6.col-sm-2

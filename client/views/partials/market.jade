@@ -1,0 +1,46 @@
+div(ng-controller="MarketController as MrktCtrl")
+    .row(style="margin-top: 20px")
+        .col-md-2
+        .col-md-8
+            form.form-inline
+                .col-md-4
+                    label.control-label(for="productFilter") Suchen nach:
+                .col-md-8
+                    input.form-control(type="text", ng-model="query", name="productFilter", ng-change="filterProducts()", autofocus)
+        .col-md-2
+    .row(style="margin-top: 20px")
+        .col-md-3
+        .col-md-6
+            .row.form-group
+                .col-md-3
+                    label.control-label(for="productName") Produktname:
+                .col-md-6
+                    input.form-control(type="text", ng-model="item.name", name="productName" required)
+            .row.form-group
+                .col-md-3
+                    label.control-label(for="productName") Beschreibung:
+                .col-md-6
+                    textarea.form-control(type="text", ng-model="item.description", name="productDescription")
+            .row.form-group
+                .col-md-3
+                    label.control-label(for="productImage") Produktbild:
+                .col-md-6
+                    button.btn.btn-info.form-control(ng-file-select, ng-model="productImages") {{imageSelectButtonText}}
+            .row.form-group
+                .col-md-3
+                    label.control-label(for="productName") Preis:
+                .col-md-6
+                    input.form-control(type="number", ng-model="item.priceDist", name="productRetailPrice" required)
+            .row
+                button.btn-sm.btn-primary.pull-right(type="submit", ng-click="createProduct()") Eintragen
+        .col-md-3
+    .row(style="margin-top: 20px")
+    div(infinite-scroll="filterProducts()", infinite-scroll-distance="0")
+        .row(ng-repeat="rowProducts in filteredProducts")
+            .col-xs-4.col-md-3(ng-repeat="product in rowProducts")
+                ul.thumbnails
+                    li.list-inline
+                        a(ng-click="getProductPage(product)").thumbnail
+                            img(ng-src="{{product.image}}", alt="")
+                            h6 {{product.name}}
+                                p.pull-right € {{product.priceDist}}
